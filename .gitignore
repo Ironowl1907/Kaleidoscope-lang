@@ -56,3 +56,9 @@ dkms.conf
 
 # Build folders
 build/
+
+# Compile commands
+compile_commands.json
+
+# Cmake junk
+.cache/
