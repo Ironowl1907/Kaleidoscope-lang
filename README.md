@@ -3,7 +3,7 @@
 Basic Sintax:
 ```
 # Compute the x'th fibonacci number.
-def fib(x)
+fn fib(x)
   if x < 3 then
     1
   else
