@@ -7,13 +7,16 @@
 typedef struct token_stream token_stream_t;
 
 typedef enum token_type {
-  TOKEN_TYPE_SUM,
-  TOKEN_TYPE_RES,
-  TOKEN_TYPE_DIV,
-  TOKEN_TYPE_MUL,
+  TOKEN_TYPE_PLUS,
+  TOKEN_TYPE_MINUS,
+  TOKEN_TYPE_FSLASH,
+  TOKEN_TYPE_STAR,
 
   TOKEN_TYPE_LITERAL,
   TOKEN_TYPE_IDENTIFIER,
+
+  TOKEN_TYPE_RPARENTESIS,
+  TOKEN_TYPE_LPARENTESIS,
 
   TOKEN_TYPE_FN,
   TOKEN_TYPE_EXTERN,
@@ -28,8 +31,16 @@ typedef enum token_stream_error {
 } token_stream_error_e;
 
 typedef struct {
-  uint32_t data;
   token_type_e type;
+
+  union {
+    double number;
+
+    struct {
+      uint32_t offset; 
+      uint16_t length;
+    } ident;
+  } as;
 } token_t;
 
 // clang-format off

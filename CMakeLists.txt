@@ -4,6 +4,8 @@ project (kaleidoscope-lang)
 
 set(SOURCES
   main.c
+	./src/lexer/lexer.c
+	./src/token_stream/token_stream.c
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
