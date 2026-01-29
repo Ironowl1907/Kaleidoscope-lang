@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 int main() {
+	const char * data = "";
   token_stream_t *token_stream = token_stream_create();
 
   token_stream_delete(token_stream);
