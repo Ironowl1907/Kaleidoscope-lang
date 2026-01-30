@@ -11,10 +11,9 @@ typedef struct parser parser_t;
 
 // clang-format off
 
-parser_t *parser_create(void);
+parser_t *parser_create(ast_t * ast);
 void parser_delete(parser_t *ctx);
 
-void parser_set_ast(ast_t *ast);
 
 parser_error_e parser_parse(void);
 

@@ -7,7 +7,10 @@
 struct parser {
   ast_t *ast;
 
-  size_t next_token;
+  size_t cursor;
 };
+
+static node_t parser_consume(parser_t *ctx);
+static node_t parser_peek(parser_t *ctx);
 
 #endif
