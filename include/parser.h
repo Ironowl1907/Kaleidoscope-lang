@@ -1,6 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "ast.h"
 typedef enum parser_error {
   PARSER_ERROR_NONE = 0,
 
@@ -15,7 +16,7 @@ void parser_delete(parser_t *ctx);
 
 void parser_set_ast(ast_t *ast);
 
-parser_error_e parser_parse();
+parser_error_e parser_parse(void);
 
 // clang-format on
 #endif
