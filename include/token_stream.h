@@ -50,6 +50,6 @@ void token_stream_delete(token_stream_t *ctx);
 token_stream_error_e token_stream_append(token_stream_t *ctx, token_t token);
 size_t token_stream_size(const token_stream_t *ctx);
 
-const token_t token_stream_get(const token_stream_t *ctx, size_t index);
+token_t token_stream_get(const token_stream_t *ctx, size_t index);
 
 #endif
