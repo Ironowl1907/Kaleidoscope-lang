@@ -4,7 +4,7 @@
 #include <string.h>
 
 int main(void) {
-  char *data = "fn (a) a + 1";
+  char *data = "fn (somethings) a + 1";
   token_stream_t *token_stream = token_stream_create();
   lexer_t *lexer = lexer_create();
 

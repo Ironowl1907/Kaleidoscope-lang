@@ -37,8 +37,8 @@ typedef struct {
     double number;
 
     struct {
-      uint32_t offset; 
-      uint16_t length;
+      const char *str;
+      size_t size;
     } ident;
   } as;
 } token_t;

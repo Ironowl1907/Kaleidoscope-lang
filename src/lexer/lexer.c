@@ -77,12 +77,12 @@ lexer_error_e lexer_set_token_stream(lexer_t *ctx, token_stream_t *stream) {
   return LEXER_ERROR_NONE;
 }
 
-static int ident_eq(const lexer_t *ctx, const token_t *tok, const char *kw) {
-  size_t len = strlen(kw);
-  if (tok->as.ident.length != len)
+static int ident_eq(const char *str, size_t size, const char *kw) {
+  size_t kw_size = strlen(kw);
+  if (size != kw_size)
     return 0;
 
-  return memcmp(ctx->raw_data + tok->as.ident.offset, kw, len) == 0;
+  return memcmp(str, kw, size) == 0;
 }
 
 lexer_error_e lexer_process_data(lexer_t *ctx) {
@@ -122,22 +122,24 @@ lexer_error_e lexer_process_data(lexer_t *ctx) {
     }
 
     if (isalpha((unsigned char)c) || c == '_') {
-      size_t start = ctx->cursor - 1;
+      size_t size = 1;
+      const char *start = &ctx->raw_data[ctx->cursor - 1];
 
-      while (isalnum((unsigned char)peek(ctx)) || peek(ctx) == '_')
+      while (isalnum((unsigned char)peek(ctx)) || peek(ctx) == '_') {
         consume(ctx);
+        ++size;
+      }
+      token_t token = {.as.ident.size = size,
+                       .as.ident.str = start,
+                       .type = TOKEN_TYPE_IDENTIFIER};
 
-      size_t len = ctx->cursor - start;
+      if (ident_eq(start, size, "fn"))
+        token.type = TOKEN_TYPE_FN;
+      else if (ident_eq(start, size, "extern"))
+        token.type = TOKEN_TYPE_EXTERN;
 
-      token_t tok = {.type = TOKEN_TYPE_IDENTIFIER,
-                     .as.ident = {(uint32_t)start, (uint16_t)len}};
+      emit(ctx, token);
 
-      if (ident_eq(ctx, &tok, "fn"))
-        tok.type = TOKEN_TYPE_FN;
-      else if (ident_eq(ctx, &tok, "extern"))
-        tok.type = TOKEN_TYPE_EXTERN;
-
-      emit(ctx, tok);
       continue;
     }
 
@@ -157,8 +159,8 @@ void lexer_debug_print_tokens(const lexer_t *ctx) {
     printf("TOKEN %-2d ", tok.type);
 
     if (tok.type == TOKEN_TYPE_IDENTIFIER) {
-      printf("ident=\"%.*s\"", tok.as.ident.length,
-             ctx->raw_data + tok.as.ident.offset);
+      printf("ident=\"%.*s\"", tok.as.ident.size,
+             tok.as.ident.str);
     } else if (tok.type == TOKEN_TYPE_LITERAL) {
       printf("number=%f", tok.as.number);
     }
