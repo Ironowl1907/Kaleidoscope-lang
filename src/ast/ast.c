@@ -34,18 +34,11 @@ void ast_delete(ast_t *ctx) {
   }
 }
 
-node_id ast_new_node(ast_t *ctx, node_t node, ast_error_e *error) {
-  if (!ctx) {
-    *error = AST_ERROR_NULL_PARAMETER;
-    return 0;
-  }
-
+node_id ast_new_node(ast_t *ctx, node_t node) {
+  assert(ctx);
   if (ctx->size == ctx->capacity - 1) {
     ast_error_e err = ast_resize_arena(ctx, ctx->capacity * 2);
-    if (err != AST_ERROR_NONE) {
-      *error = err;
-      return 0;
-    }
+		assert(err != AST_ERROR_NONE);
   }
 
   ctx->arena[ctx->size] = node;

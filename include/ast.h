@@ -55,6 +55,12 @@ typedef struct {
   node_operation_e opp;
 } node_comparation;
 
+typedef struct {
+  char *str;
+  size_t size;
+
+} node_identifier;
+
 // TODO: LATER;
 typedef struct {
   node_id calle;
@@ -66,8 +72,10 @@ typedef struct node {
   union {
     node_binary binary;
     node_urinary urinary;
-    node_comparation comp;
+    node_comparation comparison;
     node_call call;
+    node_identifier identifier;
+    double litteral;
   } as;
 
 } node_t;
@@ -75,7 +83,7 @@ typedef struct node {
 ast_t *ast_create(void);
 void ast_delete(ast_t *ctx);
 
-node_id ast_new_node(ast_t *ctx, node_t node, ast_error_e *error);
+node_id ast_new_node(ast_t *ctx, node_t node);
 
 node_t ast_get_node(ast_t *ctx, node_id index);
 

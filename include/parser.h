@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "ast.h"
+#include "token_stream.h"
 typedef enum parser_error {
   PARSER_ERROR_NONE = 0,
 
@@ -11,7 +12,7 @@ typedef struct parser parser_t;
 
 // clang-format off
 
-parser_t *parser_create(ast_t * ast);
+parser_t *parser_create(ast_t * ast, token_stream_t * ts);
 void parser_delete(parser_t *ctx);
 
 
