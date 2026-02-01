@@ -114,6 +114,8 @@ static node_id *parse_func_args(parser_t *ctx, size_t *size) {
   return args;
 }
 
+static node_id parse_expresions(parser_t *ctx) {}
+
 parser_t *parser_create(ast_t *ast, token_stream_t *ts) {
   parser_t *parser = malloc(sizeof *parser);
   if (!parser || !ast || !ts) {
@@ -133,3 +135,8 @@ void parser_delete(parser_t *ctx) {
 }
 
 parser_error_e parser_parse(void) {}
+
+static uint8_t get_token_precedence(token_t tk) {
+  uint8_t precedence = (uint8_t)tk.type;
+  return precedence;
+}

@@ -8,6 +8,7 @@ typedef enum parser_error {
 
 } parser_error_e;
 
+
 typedef struct parser parser_t;
 
 // clang-format off
