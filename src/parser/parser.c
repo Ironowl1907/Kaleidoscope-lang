@@ -31,7 +31,7 @@ static node_id parse_paren_expr(parser_t *ctx) {
   if (!expr)
     return 0;
   if (peek(ctx).type != TOKEN_TYPE_RPARENTESIS) {
-    printf("Expected token ')' at position %zu", ctx->cursor);
+    printf("Expected token ')' at position %zu\n", ctx->cursor);
     return 0;
   }
   consume(ctx); // Eat ')'
@@ -40,8 +40,64 @@ static node_id parse_paren_expr(parser_t *ctx) {
 }
 
 static node_id parse_identifier_expr(parser_t *ctx) {
+  const char *ident_str = peek(ctx).as.ident.str;
+  size_t str_size = peek(ctx).as.ident.size;
 
+  consume(ctx);
 
+  if (peek(ctx).type != TOKEN_TYPE_LPARENTESIS) {
+    ast_new_node(ctx->ast, (node_t){.node_type = NODE_TYPE_IDENTIFIER,
+                                    .as.identifier.size = str_size,
+                                    .as.identifier.str = ident_str});
+  }
+
+  node_id *args = NULL;
+  size_t size = 0;
+  consume(ctx); // Eat '('
+  if (peek(ctx).type == TOKEN_TYPE_RPARENTESIS) {
+    consume(ctx); // ')'
+  } else {
+    args = parse_func_args(ctx, &size);
+    consume(ctx); // Eat ')'
+  }
+
+  node_id calle = ast_new_node(
+      ctx->ast,
+      (node_t){.node_type = NODE_TYPE_IDENTIFIER,
+               .as.identifier = {.size = str_size, .str = ident_str}});
+  return ast_new_node(
+      ctx->ast,
+      (node_t){.node_type = NODE_TYPE_CALL,
+               .as.call = {.calle = calle, .args = args, .size = size}});
+}
+
+static node_id *parse_func_args(parser_t *ctx, size_t *size) {
+  size_t arr_reserved_size = 4;
+  *size = 0;
+  node_id *args = malloc(sizeof *args * arr_reserved_size);
+
+  for (;;) {
+    node_id arg = parse_expresion(ctx);
+    if (!arg) {
+      return NULL;
+    }
+    args[(*size)++] = arg;
+
+    if (*size == arr_reserved_size) {
+      arr_reserved_size *= 2;
+      args = realloc(args, arr_reserved_size);
+    }
+
+    if (peek(ctx).type == TOKEN_TYPE_RPARENTESIS)
+      break;
+
+    if (peek(ctx).type != TOKEN_TYPE_COMMA) {
+      printf("Expected ',' at position %zu\n", ctx->cursor);
+      return NULL;
+    }
+  }
+
+  return args;
 }
 
 parser_t *parser_create(ast_t *ast, token_stream_t *ts) {

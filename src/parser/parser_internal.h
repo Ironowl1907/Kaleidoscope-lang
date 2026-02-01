@@ -23,5 +23,6 @@ static node_id parse_primary(parser_t *ctx);
 static node_id parse_number_expr(parser_t *ctx);
 static node_id parse_paren_expr(parser_t *ctx);
 static node_id parse_identifier_expr(parser_t *ctx);
+static node_id *parse_func_args(parser_t *ctx, size_t *size);
 
 #endif

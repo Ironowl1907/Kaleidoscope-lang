@@ -105,6 +105,7 @@ lexer_error_e lexer_process_data(lexer_t *ctx) {
     case '/': emit(ctx, (token_t){ .type = TOKEN_TYPE_FSLASH }); continue;
     case '(': emit(ctx, (token_t){ .type = TOKEN_TYPE_LPARENTESIS }); continue;
     case ')': emit(ctx, (token_t){ .type = TOKEN_TYPE_RPARENTESIS }); continue;
+    case ',': emit(ctx, (token_t){ .type = TOKEN_TYPE_COMMA }); continue;
     }
     // clang-format on
 

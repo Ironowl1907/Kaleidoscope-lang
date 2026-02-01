@@ -56,7 +56,7 @@ typedef struct {
 } node_comparation;
 
 typedef struct {
-  char *str;
+  const char *str;
   size_t size;
 
 } node_identifier;
@@ -64,6 +64,8 @@ typedef struct {
 // TODO: LATER;
 typedef struct {
   node_id calle;
+  node_id *args;
+  size_t size;
 } node_call;
 
 typedef struct node {
