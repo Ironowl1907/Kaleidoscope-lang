@@ -16,7 +16,21 @@ static token_t peek(parser_t *ctx) {
   return token_stream_get(ctx->token_stream, ctx->cursor);
 }
 
-static node_id parse_primary(parser_t *ctx) {}
+static node_id parse_primary(parser_t *ctx) {
+  switch (peek(ctx).type) {
+
+  case TOKEN_TYPE_LITERAL:
+    return parse_number_expr(ctx);
+  case TOKEN_TYPE_IDENTIFIER:
+    return parse_identifier_expr(ctx);
+  case TOKEN_TYPE_LPARENTESIS:
+    return parse_paren_expr(ctx);
+  default:
+    printf("Unknown token when expecting expresion at: %zu\n", ctx->cursor);
+    return NULL;
+    break;
+  }
+}
 
 static node_id parse_number_expr(parser_t *ctx) {
   return ast_new_node(ctx->ast, (node_t){
