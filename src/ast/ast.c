@@ -58,4 +58,5 @@ ast_error_e ast_resize_arena(ast_t *ctx, size_t new_size) {
   if (!ctx->arena) {
     return AST_ERROR_FAILED_REALLOCATION;
   }
+	return AST_ERROR_NONE;
 }
