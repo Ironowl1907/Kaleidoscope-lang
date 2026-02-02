@@ -10,6 +10,5 @@ struct ast {
   node_id root_node;
 };
 
-ast_error_e ast_resize_arena(ast_t *ctx, size_t new_size);
 
 #endif

@@ -5,6 +5,10 @@
 
 #define AST_ARENA_DEFAULT_SIZE 8
 
+static ast_error_e ast_resize_arena(ast_t *ctx, size_t new_size);
+
+// ====---------------------------------------------------------------====
+
 ast_t *ast_create(void) {
   ast_t *ast = malloc(sizeof *ast);
   if (!ast) {
@@ -38,7 +42,7 @@ node_id ast_new_node(ast_t *ctx, node_t node) {
   assert(ctx);
   if (ctx->size == ctx->capacity - 1) {
     ast_error_e err = ast_resize_arena(ctx, ctx->capacity * 2);
-		assert(err != AST_ERROR_NONE);
+    assert(err != AST_ERROR_NONE);
   }
 
   ctx->arena[ctx->size] = node;
@@ -52,11 +56,11 @@ node_t ast_get_node(ast_t *ctx, node_id index) {
   return ctx->arena[index];
 }
 
-ast_error_e ast_resize_arena(ast_t *ctx, size_t new_size) {
+static ast_error_e ast_resize_arena(ast_t *ctx, size_t new_size) {
   assert(ctx);
   ctx->arena = realloc(ctx->arena, new_size);
   if (!ctx->arena) {
     return AST_ERROR_FAILED_REALLOCATION;
   }
-	return AST_ERROR_NONE;
+  return AST_ERROR_NONE;
 }
