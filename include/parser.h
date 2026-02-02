@@ -13,6 +13,6 @@ typedef struct parser parser_t;
 parser_t *parser_create(ast_t *ast, token_stream_t *ts);
 void parser_delete(parser_t *ctx);
 
-parser_error_e parser_parse(void);
+parser_error_e parser_parse(parser_t *ctx);
 
 #endif

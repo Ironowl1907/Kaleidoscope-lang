@@ -41,6 +41,19 @@ typedef enum {
 } node_operation_e;
 
 typedef struct {
+  size_t size;
+  size_t args_n;
+  node_id *args;
+  char *str;
+
+} function_prototype_t;
+
+typedef struct {
+	function_prototype_t prototype;
+	node_id body;
+} function_definition_t;
+
+typedef struct {
   node_id l, r;
   node_operation_e op;
 } node_binary;

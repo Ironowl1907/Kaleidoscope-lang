@@ -33,7 +33,7 @@ typedef enum token_stream_error {
 } token_stream_error_e;
 
 typedef struct {
-  const char *str;
+  char *str;
   size_t size;
 } identifier_t;
 
