@@ -21,6 +21,7 @@ static node_id *parse_func_args(parser_t *ctx, size_t *size);
 static node_id parse_expresion(parser_t *ctx, uint32_t r_bp);
 
 static node_operation_e token_to_binary_op(token_type_e type);
+static node_id parse_protototype(parser_t *ctx);
 
 // ====---------------------------------------------------------------====
 
@@ -179,6 +180,43 @@ static node_id parse_expresion(parser_t *ctx, uint32_t r_bp) {
   }
 
   return lhs;
+}
+
+static node_id parse_protototype(parser_t *ctx) {
+  if (peek(ctx).type != TOKEN_TYPE_IDENTIFIER) {
+    printf("Expected function name in prototype, position: %zu", ctx->cursor);
+    return 0;
+  }
+
+  identifier_t ident = consume(ctx).as.ident;
+
+  if (peek(ctx).type != TOKEN_TYPE_LPARENTESIS) {
+    printf("Expected '(', position: %zu", ctx->cursor);
+    return 0;
+  }
+
+  node_id *args;
+  size_t size = 0;
+  size_t args_reserved_size = 4;
+
+  args = malloc(sizeof *args * args_reserved_size);
+
+  while (peek(ctx).type == TOKEN_TYPE_IDENTIFIER) {
+    if (size == args_reserved_size) {
+      args_reserved_size *= 2;
+      args = realloc(args, sizeof *args * args_reserved_size);
+    }
+    args[size++] = ast_new_node(
+        ctx->ast, (node_t){.node_type = NODE_TYPE_IDENTIFIER,
+                           .as.identifier.size = peek(ctx).as.ident.size,
+                           .as.identifier.str = peek(ctx).as.ident.str});
+    consume(ctx);
+    if (peek(ctx).type == TOKEN_TYPE_RPARENTESIS)
+      break;
+    if (peek(ctx).type == TOKEN_TYPE_COMMA) {
+      consume(ctx);
+    }
+  }
 }
 
 parser_error_e parser_parse(void) {}

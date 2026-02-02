@@ -61,7 +61,6 @@ typedef struct {
 
 } node_identifier;
 
-// TODO: LATER;
 typedef struct {
   node_id calle;
   node_id *args;
