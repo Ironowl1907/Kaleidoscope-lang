@@ -8,16 +8,11 @@ typedef enum parser_error {
 
 } parser_error_e;
 
-
 typedef struct parser parser_t;
 
-// clang-format off
-
-parser_t *parser_create(ast_t * ast, token_stream_t * ts);
+parser_t *parser_create(ast_t *ast, token_stream_t *ts);
 void parser_delete(parser_t *ctx);
-
 
 parser_error_e parser_parse(void);
 
-// clang-format on
 #endif
