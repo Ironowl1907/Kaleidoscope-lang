@@ -4,8 +4,10 @@
 #include "ast.h"
 #include "token_stream.h"
 typedef enum parser_error {
+
   PARSER_ERROR_NONE = 0,
 
+  PARSER_ERROR_SINTAX_ERROR = 0,
 } parser_error_e;
 
 typedef struct parser parser_t;

@@ -247,7 +247,10 @@ static function_prototype_t parse_extern(parser_t *ctx) {
 }
 
 parser_error_e parser_parse(parser_t *ctx) {
-  parse_expresion(ctx, 0);
+  ctx->ast->root_node = parse_expresion(ctx, 0);
+  if (!ctx->ast->root_node) {
+    return PARSER_ERROR_SINTAX_ERROR;
+  }
   return PARSER_ERROR_NONE;
 }
 

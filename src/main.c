@@ -23,6 +23,7 @@ int main(void) {
   parser_t *parser = parser_create(ast, token_stream);
 
   parser_parse(parser);
+	ast_debug_print(ast);
 
   lexer_free(lexer);
   token_stream_delete(token_stream);

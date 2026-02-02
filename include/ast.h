@@ -1,9 +1,9 @@
 #ifndef AST_H
 #define AST_H
 
+#include "token_stream.h"
 #include <stddef.h>
 
-typedef struct ast ast_t;
 typedef size_t node_id;
 
 typedef enum ast_error {
@@ -49,8 +49,8 @@ typedef struct {
 } function_prototype_t;
 
 typedef struct {
-	function_prototype_t prototype;
-	node_id body;
+  function_prototype_t prototype;
+  node_id body;
 } function_definition_t;
 
 typedef struct {
@@ -94,11 +94,20 @@ typedef struct node {
 
 } node_t;
 
+typedef struct ast {
+  node_t *arena;
+  size_t size;
+  size_t capacity;
+  node_id root_node;
+} ast_t;
+
 ast_t *ast_create(void);
 void ast_delete(ast_t *ctx);
 
 node_id ast_new_node(ast_t *ctx, node_t node);
 
 node_t ast_get_node(ast_t *ctx, node_id index);
+
+void ast_debug_print(ast_t *ctx);
 
 #endif
