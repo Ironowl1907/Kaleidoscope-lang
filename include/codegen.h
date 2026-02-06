@@ -16,6 +16,6 @@ typedef struct codegen {
 codegen_t *codegen_create(void);
 void codegen_destroy(codegen_t *ctx);
 
-void codegen_gen(codegen_t *ctx, ast_t *ast);
+LLVMValueRef codegen_node(codegen_t *ctx, ast_t *ast, size_t index);
 
 #endif
