@@ -1,4 +1,5 @@
 #include "ast.h"
+#include "codegen.h"
 #include "lexer.h"
 #include "parser.h"
 #include "token_stream.h"
@@ -6,7 +7,7 @@
 #include <string.h>
 
 int main(void) {
-  char *data = "3 + 8 * 3";
+  char *data = "extern somethings(a ,b)";
   token_stream_t *token_stream = token_stream_create();
   lexer_t *lexer = lexer_create();
 
@@ -23,7 +24,11 @@ int main(void) {
   parser_t *parser = parser_create(ast, token_stream);
 
   parser_parse(parser);
-	ast_debug_print(ast);
+  ast_debug_print(ast);
+
+  codegen_t *codegen;
+  codegen = codegen_create();
+  codegen_gen(codegen, ast);
 
   lexer_free(lexer);
   token_stream_delete(token_stream);
